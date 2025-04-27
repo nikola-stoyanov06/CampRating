@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CampRating.Data;
 using CampRating.Entities;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CampRating.Controllers
 {
@@ -44,6 +45,7 @@ namespace CampRating.Controllers
         }
 
         // GET: CampingPlaces/Create
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return View();
@@ -54,6 +56,7 @@ namespace CampRating.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create(CampingPlace campingPlace)
         {
             if (ModelState.IsValid)
@@ -66,6 +69,7 @@ namespace CampRating.Controllers
         }
 
         // GET: CampingPlaces/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -86,6 +90,7 @@ namespace CampRating.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Latitude,Longitude,PhotoUrl")] CampingPlace campingPlace)
         {
             if (id != campingPlace.Id)
@@ -117,6 +122,7 @@ namespace CampRating.Controllers
         }
 
         // GET: CampingPlaces/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -137,6 +143,7 @@ namespace CampRating.Controllers
         // POST: CampingPlaces/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var campingPlace = await _context.CampingPlace.FindAsync(id);
